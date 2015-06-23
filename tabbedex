@@ -591,6 +591,9 @@ sub tab_user_command {
   if ($cmd eq 'tabbedex:new_tab') {
     $self->new_tab;
   }
+  elsif ($cmd =~ /\Atabbedex:goto_tab_(\d+)\z/xms) {
+    $self->goto_tab($tab, $1);
+  }
   elsif ($cmd eq 'tabbedex:next_tab') {
     $self->change_tab($tab, 1);
   }
@@ -614,6 +617,20 @@ sub tab_user_command {
       urxvt::invoke($tab->{term}, 20, $cmd);
       $self->{running_user_command} = 0;
     }
+  }
+
+  ();
+}
+
+sub goto_tab {
+  my ($self, $tab, $newidx) = @_;
+
+  if ($newidx < @{ $self->{tabs} }) {
+    my $idx = 0;
+    ++$idx while $self->{tabs}[$idx] != $tab;
+
+    my $direction = $newidx - $idx;
+    $self->change_tab($tab, $direction);
   }
 
   ();
