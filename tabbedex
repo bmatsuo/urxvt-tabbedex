@@ -597,6 +597,9 @@ sub tab_user_command {
   elsif ($cmd =~ /\Atabbedex:goto_tab_(\d+)\z/xms) {
     $self->goto_tab($tab, $1);
   }
+  elsif ($cmd eq 'tabbedex:last_tab') {
+    $self->last_tab($tab);
+  }
   elsif ($cmd eq 'tabbedex:next_tab') {
     $self->change_tab($tab, 1);
   }
@@ -621,6 +624,19 @@ sub tab_user_command {
       $self->{running_user_command} = 0;
     }
   }
+
+  ();
+}
+
+
+sub last_tab {
+  my ($self, $tab) = @_;
+  my $idx = @{ $self->{tabs} };
+  if (!$self->{index_from_one}) {
+    --$idx;
+  }
+
+  $self->goto_tab($tab, $idx);
 
   ();
 }
