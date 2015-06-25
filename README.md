@@ -19,6 +19,7 @@ tabbed.title                ???
 tabbed.autohide             hide the tab-bar when there is only one tab
 tabbed.no-tabbedex-keys     ???
 tabbed.reopen-on-close      open a new tab after the last tab is closed
+tabbed.index-from-one       open a new tab after the last tab is closed
 ```
 
 ##Commands
@@ -28,10 +29,12 @@ The following commands can be bound to keys in the `~/.Xdefaults` file.
 ```
 new_tab         create a new tab at the next highest index
 rename_tab      rename the active tab
-next_tab        make the next tab active (and rolling over back to the first tab)
-prev_tab        make the previous tab active (and rolling over back to the last tab)
-move_tab_left   swap the active tab with that on the left.
-move_tab_right  swap the active tab with that on the right.
+next_tab        make active the next tab (eventually cycling around)
+prev_tab        make active the previous tab (eventually cycling around)
+last_tab        make active the tab at the highest index
+goto_tab_nn     make the tab at index *nn* the active tab
+move_tab_left   swap the active tab with that on the left
+move_tab_right  swap the active tab with that on the right
 ```
 
 ##Differences from [stepb/urxvt-tabbedex](http://github.com/stepb/urxvt-tabbedex)
