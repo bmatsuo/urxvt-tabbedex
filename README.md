@@ -39,8 +39,8 @@ move_tab_right  swap the active tab with that on the right
 
 ##Differences from [stepb/urxvt-tabbedex](http://github.com/stepb/urxvt-tabbedex)
 
-Modifications are listed in the script file itself for now in a style of the
-upstream.
+A list of enhancements starting from the original "tabbed" extension (ish?) is
+being maintained in the script file itself, in the style of the upstream.
 
 ##LICENSE
 
