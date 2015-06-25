@@ -14,10 +14,13 @@
 #
 ##
 ## Tabbed plugin for rxvt-unicode
-## Modified by Michal Nazarewicz (mina86/AT/mina86.com), StephenB
-## (mail4stb/AT/gmail.com), Steven Merrill
-## <steven dot merrill at gmail.com>, Mark Pustjens
-## <pustjens@dds.nl> and more...
+## Modified by
+##   Michal Nazarewicz (mina86/AT/mina86.com),
+##   StephenB (mail4stb/AT/gmail.com),
+##   Steven Merrill <steven dot merrill at gmail.com>,
+##   Mark Pustjens <pustjens@dds.nl>
+##   Bryan Matsuo <bryan dot matsuo at gmail dot com>
+##   and more...
 ##
 ## The following has been added:
 ##
@@ -52,7 +55,7 @@
 ##    title is displayed).  This make tab bar look nicer.
 ##
 ## Added by StephenB:
-## 
+##
 ## 7. Tabs can be named with Shift+Up (Enter to confirm, Escape to
 ##    cancel).
 ##
@@ -93,6 +96,20 @@
 ## 16. Ability to prevent the last tab from closing.
 ##     Use the following in your ~/.Xdefaults to enable:
 ##     URXvt.tabbed.reopen-on-close: yes
+##
+## Added by Bryan Matsuo <bryan dot matsuo at gmail dot com>
+##
+## 17. Switch the active tab to any index with the command
+##     tabbedex:goto_tab_nn for any digit sequence `nn`.
+##     e.g. URxvt.keysym.M-1 perl:tabbex:goto_tab_1
+##
+## 18. Alter tab indexing so the lowest tab is at index 1 (not 0) with the X
+##     resource tabbed:index-from-one.
+##     e.g. URxvt.tabbed.index-from-one: true
+##
+## 19. Switch to the tab at the highest index with the command
+##     tabbedex:last_tab.
+##     e.g. URxvt.keysym.M-0 perl:tabbex:last_tab
 ##
 
 use Encode qw(decode);
@@ -411,7 +428,7 @@ sub on_init {
    $self->{reopen_on_close} =
       ($self->my_resource ('reopen-on-close') or 'false') !~ /^(?:false|0|no)/i;
    $self->{index_from_one} =
-      ($self->my_resource ('index_from_one') or 'false') !~ /^(?:false|0|no)/i;
+      ($self->my_resource ('index-from-one') or 'false') !~ /^(?:false|0|no)/i;
 
 
    ();
