@@ -147,8 +147,9 @@ sub refresh {
       $ofs = 7;
    }
 
+   my $idx_offset = $self->{index_from_one} ? 1 : 0;
    for my $tab (@{ $self->{tabs} }) {
-      my $name = $tab->{name} ? $tab->{name} : $idx;
+      my $name = $tab->{name} ? $tab->{name} : ($idx+$idx_offset);
       my $act = $self->tab_activity_mark($tab);
       my $txt = sprintf "%s%s%s", $act, $name, $act;
       my $len = length $txt;
@@ -407,8 +408,11 @@ sub on_init {
       ($self->my_resource ('autohide') or 'false') !~ /^(?:false|0|no)/i;
    $self->{no_default_keys} =
       ($self->my_resource ('no-tabbedex-keys') or 'false') !~ /^(?:false|0|no)/i;
-    $self->{reopen_on_close} =
+   $self->{reopen_on_close} =
       ($self->my_resource ('reopen-on-close') or 'false') !~ /^(?:false|0|no)/i;
+   $self->{index_from_one} =
+      ($self->my_resource ('index_from_one') or 'false') !~ /^(?:false|0|no)/i;
+
 
    ();
 }
@@ -481,7 +485,6 @@ sub tab_start {
 
    push @{ $self->{tabs} }, $tab;
 
-#   $tab->{name} ||= scalar @{ $self->{tabs} };
    $self->make_current ($tab);
 
    ();
@@ -591,6 +594,12 @@ sub tab_user_command {
   if ($cmd eq 'tabbedex:new_tab') {
     $self->new_tab;
   }
+  elsif ($cmd =~ /\Atabbedex:goto_tab_(\d+)\z/xms) {
+    $self->goto_tab($tab, $1);
+  }
+  elsif ($cmd eq 'tabbedex:last_tab') {
+    $self->last_tab($tab);
+  }
   elsif ($cmd eq 'tabbedex:next_tab') {
     $self->change_tab($tab, 1);
   }
@@ -614,6 +623,36 @@ sub tab_user_command {
       urxvt::invoke($tab->{term}, 20, $cmd);
       $self->{running_user_command} = 0;
     }
+  }
+
+  ();
+}
+
+
+sub last_tab {
+  my ($self, $tab) = @_;
+  my $idx = @{ $self->{tabs} };
+  if (!$self->{index_from_one}) {
+    --$idx;
+  }
+
+  $self->goto_tab($tab, $idx);
+
+  ();
+}
+
+sub goto_tab {
+  my ($self, $tab, $newidx) = @_;
+  if ($self->{index_from_one}) {
+    --$newidx;
+  }
+
+  if ($newidx < @{ $self->{tabs} }) {
+    my $idx = 0;
+    ++$idx while $self->{tabs}[$idx] != $tab;
+
+    my $direction = $newidx - $idx;
+    $self->change_tab($tab, $direction);
   }
 
   ();
