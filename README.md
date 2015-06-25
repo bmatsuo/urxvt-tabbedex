@@ -7,10 +7,10 @@
 The following resources can be set in the `~/.Xdefaults` file.
 
 ```
-tabbed.tabbar-fg            color of the tab-bar foreground 
-tabbed.tabbar-bg            color of the tab-bar background 
-tabbed.tab-fg               color of the active tab foreground 
-tabbed.tab-bg               color of the active tab background 
+tabbed.tabbar-fg            color of the tab-bar foreground
+tabbed.tabbar-bg            color of the tab-bar background
+tabbed.tab-fg               color of the active tab foreground
+tabbed.tab-bg               color of the active tab background
 tabbed.title-fg             color of the title foreground (text)
 tabbed.title-bg             color of the title background
 tabbed.tabbar-timeouts      background tab activity timeouts
